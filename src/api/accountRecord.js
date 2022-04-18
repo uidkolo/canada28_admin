@@ -1,13 +1,12 @@
 import request from '@/utils/request'
 
 // 获取列表
-export const getList = async({ type, status, pageNo = 1, pageSize = 10 }) => {
+export const getList = async({ pageNo = 1, pageSize = 10, id }) => {
   const res = await request({
-    url: '/api/order',
+    url: '/api/account/record',
     method: 'GET',
     params: {
-      type,
-      status,
+      id,
       pageNo,
       pageSize
     }
@@ -18,7 +17,7 @@ export const getList = async({ type, status, pageNo = 1, pageSize = 10 }) => {
 // 新增
 export const create = async(data) => {
   const res = await request({
-    url: '/api/order',
+    url: '/api/account/record',
     method: 'POST',
     data
   })
@@ -28,7 +27,7 @@ export const create = async(data) => {
 // 编辑
 export const update = async(id, data) => {
   const res = await request({
-    url: `/api/order/${id}`,
+    url: `/api/account/record/${id}`,
     method: 'PUT',
     data
   })
@@ -38,7 +37,7 @@ export const update = async(id, data) => {
 // 删除
 export const remove = async(id) => {
   const res = await request({
-    url: `/api/order/${id}`,
+    url: `/api/account/record/${id}`,
     method: 'DELETE'
   })
   return res

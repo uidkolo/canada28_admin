@@ -39,51 +39,57 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [{
-        path: '/redirect',
-        component: Layout,
-        hidden: true,
-        children: [{
-            path: '/redirect/:path(.*)',
-            component: () =>
-                import ('@/views/redirect/index')
-        }]
-    },
-    {
-        path: '/login',
-        component: () =>
-            import ('@/views/login/index'),
-        hidden: true
-    },
-    {
-        path: '/auth-redirect',
-        component: () =>
-            import ('@/views/login/auth-redirect'),
-        hidden: true
-    },
-    {
-        path: '/404',
-        component: () =>
-            import ('@/views/error-page/404'),
-        hidden: true
-    },
-    {
-        path: '/401',
-        component: () =>
-            import ('@/views/error-page/401'),
-        hidden: true
-    },
-    {
-        path: '/',
-        component: Layout,
-        redirect: '/home',
-        children: [{
-            path: 'home',
-            component: () =>
-                import ('@/views/dashboard/index'),
-            name: 'Home',
-            meta: { title: '首页', icon: 'el-icon-s-home', affix: true }
-        }]
-    }
+  path: '/redirect',
+  component: Layout,
+  hidden: true,
+  children: [{
+    path: '/redirect/:path(.*)',
+    component: () =>
+      import ('@/views/redirect/index')
+  }]
+},
+{
+  path: '/login',
+  component: () =>
+    import ('@/views/login/index'),
+  hidden: true
+},
+{
+  path: '/auth-redirect',
+  component: () =>
+    import ('@/views/login/auth-redirect'),
+  hidden: true
+},
+{
+  path: '/404',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/error-page/404'),
+    hidden: true,
+    name: '404',
+    meta: { title: '404', noCache: true }
+  }]
+},
+{
+  path: '/401',
+  component: () =>
+    import ('@/views/error-page/401'),
+  hidden: true
+},
+{
+  path: '/',
+  component: Layout,
+  redirect: '/home',
+  children: [{
+    path: 'home',
+    component: () =>
+      import ('@/views/home/index'),
+    name: 'Home',
+    meta: { title: '首页', icon: 'el-icon-s-home', affix: true }
+  }]
+}
 ]
 
 /**
@@ -91,77 +97,159 @@ export const constantRoutes = [{
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [{
-        path: '/user',
-        component: Layout,
-        children: [{
-            path: '',
-            component: () =>
-                import ('@/views/user/index'),
-            name: 'Users',
-            meta: { title: '用户', icon: 'el-icon-user-solid', noCache: true }
-        }]
-    },
+  path: '/admin',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/admin/index'),
+    name: 'Admin',
+    meta: { title: '管理员', icon: 'user', noCache: true, roles: ['superAdmin'] }
+  }]
+},
 
-    {
-        path: '/product',
-        component: Layout,
-        name: 'Product',
-        meta: { title: '商品', icon: 'el-icon-s-goods', noCache: true },
-        children: [{
-            path: 'list',
-            component: () =>
-                import ('@/views/product/index'),
-            name: 'ProductList',
-            meta: { title: '商品列表', noCache: true }
-        }, {
-            path: 'classify',
-            component: () =>
-                import ('@/views/product/classify'),
-            name: 'ProductClassify',
-            meta: { title: '商品分类', noCache: true }
-        }]
-    },
+{
+  path: '/user',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/user/index'),
+    name: 'Users',
+    meta: { title: '用户', icon: 'peoples', noCache: true }
+  }]
+},
 
-    {
-        path: '/order',
-        component: Layout,
-        children: [{
-            path: '',
-            component: () =>
-                import ('@/views/order/index'),
-            name: 'Order',
-            meta: { title: '订单', icon: 'el-icon-s-order', noCache: true }
-        }]
-    },
+{
+  path: '/order',
+  component: Layout,
+  meta: { title: '订单', icon: 'el-icon-s-order', noCache: true },
+  children: [{
+    path: 'in',
+    component: () =>
+      import ('@/views/order/in'),
+    name: 'Order',
+    meta: { title: '充值', icon: 'top-up', noCache: true }
+  }, {
+    path: 'out',
+    component: () =>
+      import ('@/views/order/out'),
+    name: 'Order',
+    meta: { title: '提现', icon: 'withdrawal', noCache: true }
+  }]
+},
 
-    {
-        path: '/code',
-        component: Layout,
-        children: [{
-            path: '',
-            component: () =>
-                import ('@/views/code/index'),
-            name: 'Code',
-            meta: { title: '序列号', icon: 'el-icon-s-ticket', noCache: true }
-        }]
-    },
+{
+  path: '/address',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/address/index'),
+    name: 'Address',
+    meta: { title: '钱包', icon: 'wallet', noCache: true }
+  }]
+},
 
+{
+  path: '/bot',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/bot/index'),
+    name: 'Bot',
+    meta: { title: '机器人', icon: 'bot', noCache: true }
+  }]
+},
 
-    // 404 page must be placed at the end !!!
-    { path: '*', redirect: '/404', hidden: true }
+{
+  path: '/accountRecord',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/accountRecord/index'),
+    name: 'AccountRecord',
+    meta: { title: '流水记录', icon: 'el-icon-notebook-1', noCache: true }
+  }]
+},
+
+{
+  path: '/playRecord',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/playRecord/index'),
+    name: 'PlayRecord',
+    meta: { title: '投注记录', icon: 'el-icon-data-line', noCache: true }
+  }]
+},
+
+{
+  path: '/group',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/group/index'),
+    name: 'Group',
+    meta: { title: '彩票群设置', icon: 'component', noCache: true }
+  }]
+},
+
+{
+  path: '/service',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/service/index'),
+    name: 'Service',
+    meta: { title: '客服设置', icon: 'service', noCache: true }
+  }]
+},
+
+{
+  path: '/dapp',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/dapp/index'),
+    name: 'Dapp',
+    meta: { title: 'Dapp设置', icon: 'dapp', noCache: true }
+  }]
+},
+
+{
+  path: '/privateKey',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/privateKey/index'),
+    name: 'PrivateKey',
+    meta: { title: '私钥设置', icon: 'key', noCache: true }
+  }]
+},
+
+// 404 page must be placed at the end !!!
+{ path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
 })
 
 const router = createRouter()
 
 export function resetRouter() {
-    const newRouter = createRouter()
-    router.matcher = newRouter.matcher // reset router
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
 }
 
 export default router
